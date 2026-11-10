@@ -198,3 +198,15 @@ h1, h2, h3 { font-weight: 400; line-height: 1.4; margin: 0; }
   font-size: 14px; color: var(--ink-soft); background: var(--paper-2);
   border: 1.5px dashed var(--line); border-radius: 12px; padding: 8px 12px; margin-bottom: 22px;
 }
+
+/* ---------- 首頁背景:咖啡廳書櫃素描(淡淡疊圖) ---------- */
+body.home-page::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: url("../img/cafe-bg.svg") center bottom / cover no-repeat;
+  opacity: .16;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.home-page::before { filter: invert(1); opacity: .12; }
+}
+/* 窄螢幕:兩側景物會跑到角色後面,所以不顯示背景 */
+@media (max-width: 760px) { body.home-page::before { display: none; } }
