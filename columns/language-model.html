@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>語言模型怎麼學習的 — 貓貓冊店</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Iansui&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="../index.html">🐱 貓貓冊店</a>
+      <nav>
+        <a href="../books.html">書籍介紹</a>
+        <a href="../columns.html" aria-current="page">專欄文章</a>
+      </nav>
+    </header>
+
+    <article class="article">
+      <h1>語言模型怎麼學習的</h1>
+      <p class="byline">貓貓冊店專欄 ・ 草稿</p>
+      <p class="draft-note">這是第一版草稿,之後會再修正。文中數字與結論來自文末列出的論文與報導。</p>
+
+      <p>你問 ChatGPT 一個問題,它流暢地回答。很容易讓人以為,它「讀過」整個網路,然後把答案查出來。但實際上,它做的事情簡單得多,也奇怪得多:它在<strong>猜下一個字</strong>。</p>
+
+      <h2>一、先把句子拆成「詞元」</h2>
+      <p>電腦不直接讀文字,而是先把文字切成一小塊一小塊,叫做「詞元」(token)。詞元可能是一個字、一個詞,或半個英文單字。每一個詞元會被換成一串數字,稱為「向量」,你可以把它想成這個詞元在一張很高維度的地圖上的座標。意思相近的詞,座標會靠得比較近。</p>
+
+      <h2>二、核心任務:預測下一個詞元</h2>
+      <p>預訓練階段的任務只有一個:給模型一段文字的前半部,請它預測下一個詞元是什麼。例如看到「今天天氣很」,模型要給出每個可能詞元的機率,「好」可能是 30%,「熱」是 20%,「冷」是 15%……然後跟真正的答案比較。猜得越準,「損失」(loss)就越小;猜錯了,就用「梯度下降」這種方法,微調模型內部數十億個參數,讓下次更可能猜對。</p>
+      <p>這個動作重複上兆次。沒有人逐條教它文法、事實或邏輯,但為了把下一個字猜準,模型被迫去記住文法、世界知識和推理的樣式,因為這些都有助於預測。</p>
+
+      <h2>三、Transformer:讓模型學會「看哪裡」</h2>
+      <p>現在主流的模型都使用 2017 年 Google 研究團隊提出的 Transformer 架構。它的關鍵是「注意力機制」:在預測下一個詞元時,模型可以同時回頭看前面所有的詞元,並自己決定哪幾個最重要。比如讀到「她把書遞給他,因為『他』想看」,模型需要知道「他」指的是誰,注意力機制就是讓它能在上下文裡找到線索。</p>
+
+      <h2>四、規模:更大、更多資料,真的會更好嗎?</h2>
+      <p>2020 年 OpenAI 的研究者發現,模型的表現與參數量、資料量、運算量之間,存在穩定的冪律關係,也就是所謂的「規模定律」。當時的結論偏向:運算資源增加時,應該優先把模型做大。</p>
+      <p>2022 年 DeepMind 的 Chinchilla 研究修正了這個看法:在相同的運算預算下,模型大小與訓練資料量應該差不多比例地成長。他們的 70B 參數模型 Chinchilla 只用 Gopher(280B 參數)四分之一的大小,卻用了更多資料(約 1.4 兆詞元),表現更好。後來大家常把「每個參數約對應 20 個詞元」當作經驗法則。</p>
+      <p>不過這只是粗略的經驗,不是定律。後續研究指出,最佳比例會受到資料、分詞方式與模型家族影響;而現實中,因為模型上線後的推論成本很高,很多團隊會刻意訓練出「比 Chinchilla 建議更小、但訓練更久」的模型。</p>
+
+      <h2>五、從「會接話」到「會聽話」:人類回饋</h2>
+      <p>只做預訓練的模型很會「接話」,卻不一定會「幫忙」。你問它問題,它可能續寫出另一個問題,因為網路上就是這樣的文字。為了讓模型變成助理,研究者在預訓練後多做了幾件事。OpenAI 在 2022 年發表的 InstructGPT 論文,把流程整理成三步:</p>
+      <ol>
+        <li><strong>監督式微調</strong>:請人類寫出理想的回答範例,讓模型模仿。</li>
+        <li><strong>訓練獎勵模型</strong>:讓模型對同一個問題產生多個答案,請人類排序,再訓練另一個模型去預測人類喜歡哪一個。</li>
+        <li><strong>強化學習</strong>:用這個獎勵模型當裁判,以 PPO 演算法調整語言模型,讓它更常產生得高分的回答。</li>
+      </ol>
+      <p>這一步的效果很驚人:在論文的評估裡,人類評審更喜歡只有 13 億參數的 InstructGPT,勝過 1750 億參數的 GPT-3。換句話說,「會不會聽人話」有時比「有多大」更重要。這套方法稱為「從人類回饋中強化學習」(RLHF)。</p>
+
+      <h2>六、那它「懂」嗎?</h2>
+      <p>這是目前仍有爭論的問題。可以確定的是:模型被訓練成產生「聽起來合理」的文字,而不是「經過查證為真」的文字。這也是為什麼它有時會一本正經地編出不存在的書名或數據,俗稱「幻覺」。理解它的學習方式,有助於我們用適當的距離使用它:拿它做草稿、整理、腦力激盪很好;要引用事實,請回頭查原始來源。</p>
+
+      <blockquote>一句話總結:語言模型是被「猜下一個字」這個簡單任務逼出複雜能力的,而再用人類的偏好把它調成比較好用的樣子。</blockquote>
+
+      <h2>延伸閱讀</h2>
+      <p>想親手做做看,可以翻翻書單裡的《生成深度學習》;想先補上背後的數學,可以看《機器學習的數學基礎》。</p>
+
+      <h2>參考資料</h2>
+      <ol class="refs">
+        <li>Vaswani et al. (2017). <em>Attention Is All You Need</em>. <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arxiv.org/abs/1706.03762</a></li>
+        <li>Kaplan et al. (2020). <em>Scaling Laws for Neural Language Models</em>. <a href="https://arxiv.org/abs/2001.08361" target="_blank" rel="noopener">arxiv.org/abs/2001.08361</a></li>
+        <li>Hoffmann et al. (2022). <em>Training Compute-Optimal Large Language Models</em>(Chinchilla). <a href="https://arxiv.org/abs/2203.15556" target="_blank" rel="noopener">arxiv.org/abs/2203.15556</a></li>
+        <li>Ouyang et al. (2022). <em>Training language models to follow instructions with human feedback</em>(InstructGPT). <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">arxiv.org/abs/2203.02155</a></li>
+        <li>Besiroglu et al. (2024). <em>Chinchilla Scaling: A replication attempt</em>. <a href="https://arxiv.org/abs/2404.10102" target="_blank" rel="noopener">arxiv.org/abs/2404.10102</a></li>
+      </ol>
+    </article>
+  </div>
+  <footer class="foot">貓貓冊店 niau-niau tsheh-tiàm<span class="addr">地址:某科技公司科技大樓二樓一隅</span></footer>
+</body>
+</html>

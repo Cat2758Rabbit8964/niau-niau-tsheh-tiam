@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>社群媒體演算法 — 貓貓冊店</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Iansui&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="../index.html">🐱 貓貓冊店</a>
+      <nav>
+        <a href="../books.html">書籍介紹</a>
+        <a href="../columns.html" aria-current="page">專欄文章</a>
+      </nav>
+    </header>
+
+    <article class="article">
+      <h1>社群媒體演算法</h1>
+      <p class="byline">貓貓冊店專欄 ・ 草稿</p>
+      <p class="draft-note">這是第一版草稿,之後會再修正。文中數字與結論來自文末列出的研究與報導。</p>
+
+      <p>每天打開手機,動態牆上的貼文彷彿剛好都是你想看的。但沒有人在你背後替你挑,挑的是一套叫做「推薦演算法」的程式。這篇文章想回答三件事:它在做什麼?它偏愛什麼?研究到底找到了什麼?</p>
+
+      <h2>一、它在做什麼:幫你排隊</h2>
+      <p>你每天追蹤的帳號、朋友、廣告加起來,可能有幾千則貼文等著給你看,但你一天只看得完幾十則。演算法的工作,就是替這幾千則貼文<strong>排出順序</strong>。</p>
+      <p>排序的依據是「預測你會不會互動」:你會不會按讚、留言、分享、點開,或者停留多久。平台用你過去的行為訓練模型,替每一則貼文算出一個分數,分數高的排前面。</p>
+
+      <h2>二、拆開來看:候選、排序、過濾</h2>
+      <p>2023 年 3 月 31 日,推特(Twitter)把首頁推薦演算法的程式碼公開在 GitHub 上,讓外界第一次比較具體地看到商業平台的做法。雖然各平台細節不同,大致流程可以這樣理解:</p>
+      <ol>
+        <li><strong>找候選</strong>:先從你追蹤的人,以及系統推測你可能有興趣的帳號裡,撈出一批可能要給你看的貼文。</li>
+        <li><strong>排序</strong>:先用較輕量的模型粗篩,再交給較大的神經網路細排,預測每一則貼文被你互動的機率。</li>
+        <li><strong>混合與過濾</strong>:把貼文、廣告、推薦帳號混在一起,再依規則剔除不適合的內容(例如被你封鎖的人、違規內容),最後呈現給你。</li>
+      </ol>
+
+      <h2>三、為什麼容易被激動的內容吸引?</h2>
+      <p>平台的商業目標之一,是讓使用者願意多待一會兒,所以「會引起互動的內容」自然容易被排在前面。而人類本來就容易對新奇、強烈的訊息有反應。</p>
+      <p>2018 年,MIT 研究團隊在《Science》上發表了一項針對推特的研究:他們分析 2006 到 2017 年間約 12.6 萬則被查核過的消息,被約 300 萬人轉發超過 450 萬次。結果發現,假消息被轉推的機率,比真消息高約 70%。而且機器人帳號加速真假消息的程度差不多,真正讓假消息跑得更快的,主要是人。研究者推測,可能是因為假消息比較「新奇」,人們更容易想分享。</p>
+      <p>要注意,這個研究說的是「人的分享行為」,並不等於「演算法刻意推假消息」。但如果演算法是依照互動來排序,就有可能把這些容易被轉發的內容放得更大。</p>
+
+      <h2>四、同溫層與「過濾氣泡」</h2>
+      <p>作家伊萊・帕里澤(Eli Pariser)在 2011 年提出「過濾氣泡」的概念:當個人化推薦只給我們看喜歡、同意的東西,我們就會被關在一個看不到不同意見的氣泡裡。這個說法很有畫面,也影響深遠。</p>
+      <p>那麼,實際證據是否支持?答案是:比想像中複雜。</p>
+
+      <h2>五、2023 年的大型實驗:換掉演算法,會怎樣?</h2>
+      <p>2023 年,學者與 Meta 合作,在美國 2020 年大選期間做了一系列實驗,論文刊登於《Science》與《Nature》。其中一項研究找來約 2.3 萬名 Facebook 使用者與 2.1 萬名 Instagram 使用者(皆同意參與),在 2020 年 10 到 12 月間,把其中一部分人的動態牆從「演算法排序」改成「依時間排序」。</p>
+      <p>結果是:</p>
+      <ul>
+        <li>改成時間排序後,使用者的<strong>政治極化程度沒有顯著改變</strong>,政治知識與其他重要態度也沒有明顯變化。</li>
+        <li>但看到的內容確實變了:來源不可靠的內容在 Facebook 增加約 68.8%、Instagram 增加約 22.1%,而 Facebook 上不文明的內容減少約 43%。</li>
+        <li>使用者在這兩個平台上花的時間變少,轉去用 TikTok、YouTube 等其他平台。</li>
+      </ul>
+      <p>研究者也提醒:實驗只涵蓋選舉期間的幾個月,無法回答長期影響;參與者也只是一部分的使用者。所以我們不能據此說「演算法完全沒有影響」,只能說「光是把排序方式換掉,並不能立刻解決極化問題」。</p>
+
+      <h2>六、那我們可以怎麼做?</h2>
+      <ul>
+        <li><strong>主動選擇來源</strong>:挑幾個你信任、觀點各異的媒體或作者,自己訂閱,而不是只靠動態牆。</li>
+        <li><strong>留意情緒</strong>:如果一則貼文讓你立刻想轉發,先停三秒,問自己:我確認過來源了嗎?</li>
+        <li><strong>定期整理追蹤清單</strong>:演算法會學你的行為,你也可以用「取消追蹤」「不感興趣」去教它。</li>
+        <li><strong>換一種看資訊的方式</strong>:書、長文、專欄,都比滑不完的動態牆更容易讓人慢下來。</li>
+      </ul>
+
+      <blockquote>一句話總結:演算法不是壞人,它只是很認真地在做「預測你會點什麼」這件事。而我們該做的,是記得自己也能選擇要看什麼。</blockquote>
+
+      <h2>參考資料</h2>
+      <ol class="refs">
+        <li>Vosoughi, Roy &amp; Aral (2018). <em>The spread of true and false news online</em>. Science. <a href="https://doi.org/10.1126/science.aap9559" target="_blank" rel="noopener">doi.org/10.1126/science.aap9559</a>;MIT News 報導:<a href="https://news.mit.edu/2018/study-twitter-false-news-travels-faster-true-stories-0308" target="_blank" rel="noopener">news.mit.edu</a></li>
+        <li>Guess et al. (2023). <em>How do social media feed algorithms affect attitudes and behavior in an election campaign?</em> Science. <a href="https://doi.org/10.1126/science.abp9364" target="_blank" rel="noopener">doi.org/10.1126/science.abp9364</a></li>
+        <li>NYU Center for Social Media and Politics:<a href="https://csmapnyu.org/impact/news/first-four-papers-from-us-2020-facebook-instagram-research-election-study-published-in-science-and-nature" target="_blank" rel="noopener">US 2020 Facebook &amp; Instagram 研究專案說明</a></li>
+        <li>Twitter(2023). <em>the-algorithm</em>(推薦演算法原始碼). <a href="https://github.com/twitter/the-algorithm" target="_blank" rel="noopener">github.com/twitter/the-algorithm</a></li>
+        <li>Pariser, E. (2011). <em>The Filter Bubble: What the Internet Is Hiding from You</em>. Penguin Press.</li>
+      </ol>
+    </article>
+  </div>
+  <footer class="foot">貓貓冊店 niau-niau tsheh-tiàm<span class="addr">地址:某科技公司科技大樓二樓一隅</span></footer>
+</body>
+</html>

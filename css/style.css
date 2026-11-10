@@ -1,0 +1,200 @@
+/* 貓貓冊店 — 共用樣式 */
+:root {
+  --paper: #fbf3e4;
+  --paper-2: #f4e8d0;
+  --ink: #4a3b32;
+  --ink-soft: #7a6759;
+  --accent: #e58f9c;      /* 腮紅粉 */
+  --accent-deep: #c9606f;
+  --line: #d9c7a8;
+  --card: #fffaf0;
+  --shadow: 0 6px 18px rgba(90, 60, 40, .12);
+  --hand: "Iansui", "Kaiti TC", "BiauKai", "DFKai-SB", cursive, serif;
+  --latin: "Caveat", "Iansui", cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #2a2320;
+    --paper-2: #342b27;
+    --ink: #f1e6d6;
+    --ink-soft: #bba995;
+    --accent: #e58f9c;
+    --accent-deep: #f1a3ae;
+    --line: #54463d;
+    --card: #362d29;
+    --shadow: 0 6px 18px rgba(0, 0, 0, .35);
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 18px;
+  line-height: 1.85;
+  min-height: 100vh;
+}
+a { color: var(--accent-deep); }
+img { max-width: 100%; }
+
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+/* ---------- 頂端導覽(內頁) ---------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 0; border-bottom: 2px dashed var(--line); margin-bottom: 28px;
+}
+.topbar .brand { font-size: 22px; text-decoration: none; color: var(--ink); }
+.topbar nav a {
+  margin-left: 14px; text-decoration: none; color: var(--ink-soft);
+  padding: 2px 6px; border-radius: 8px;
+}
+.topbar nav a:hover, .topbar nav a[aria-current="page"] {
+  color: var(--ink); background: var(--paper-2);
+}
+
+h1, h2, h3 { font-weight: 400; line-height: 1.4; margin: 0; }
+.page-title { font-size: clamp(30px, 6vw, 42px); margin-bottom: 6px; }
+.page-lede { color: var(--ink-soft); margin: 0 0 28px; }
+
+/* ---------- 首頁 ---------- */
+.home { text-align: center; padding-top: clamp(24px, 6vh, 56px); }
+.home h1 { font-size: clamp(31px, 7.7vw, 59px); letter-spacing: .08em; }
+.tailo {
+  font-family: var(--latin); font-size: clamp(24px, 5vw, 34px);
+  color: var(--accent-deep); margin: 0 0 6px; letter-spacing: .04em;
+}
+.tagline { font-size: clamp(17px, 3.6vw, 22px); color: var(--ink-soft); margin: 0; }
+
+.stage {
+  position: relative;
+  display: flex; justify-content: center; align-items: flex-end; gap: clamp(8px, 4vw, 48px);
+  margin: clamp(70px, 12vh, 120px) auto 0;
+  padding-bottom: 24px;
+  max-width: 720px;
+}
+.stage::after {   /* 手繪地面線 */
+  content: ""; position: absolute; left: 6%; right: 6%; bottom: 14px;
+  border-bottom: 3px dotted var(--line);
+}
+.char { position: relative; display: inline-block; }
+.char-btn {
+  display: block; border: 0; background: none; padding: 0; cursor: pointer;
+  border-radius: 24px; transition: transform .25s ease;
+}
+.char-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.char-btn img { display: block; height: auto; }
+.char.rabbit .char-btn img { width: clamp(130px, 28vw, 240px); }
+.char.cat    .char-btn img { width: clamp(130px, 28vw, 240px); }
+.char:hover .char-btn,
+.char.open .char-btn { transform: translateY(-6px) rotate(-1.5deg); }
+.char.cat:hover .char-btn, .char.cat.open .char-btn { transform: translateY(-6px) rotate(1.5deg); }
+
+/* 對話框 */
+.bubble {
+  position: absolute; bottom: calc(100% - 28px); z-index: 5;
+  width: min(250px, 62vw);
+  background: var(--card); color: var(--ink);
+  border: 2.5px solid var(--ink); border-radius: 22px 24px 22px 8px;
+  padding: 14px 14px 12px; box-shadow: var(--shadow);
+  opacity: 0; visibility: hidden; transform: translateY(8px) scale(.96);
+  transform-origin: bottom center;
+  transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+}
+.char.rabbit .bubble { left: -8px; }
+.char.cat .bubble { right: -8px; border-radius: 24px 22px 8px 22px; }
+.bubble::after {   /* 小尾巴 */
+  content: ""; position: absolute; bottom: -13px; width: 20px; height: 20px;
+  background: var(--card); border-right: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink);
+  transform: rotate(45deg);
+}
+.char.rabbit .bubble::after { left: 44px; }
+.char.cat .bubble::after { right: 44px; }
+.char:hover .bubble, .char:focus-within .bubble, .char.open .bubble {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.bubble p { margin: 0 0 8px; font-size: 15px; color: var(--ink-soft); line-height: 1.5; }
+.bubble .btns { display: flex; flex-direction: column; gap: 8px; }
+.btn {
+  display: block; text-align: center; text-decoration: none;
+  font-family: var(--hand); font-size: 17px; line-height: 1.4;
+  color: var(--ink); background: var(--paper-2);
+  border: 2px solid var(--ink); border-radius: 14px; padding: 6px 10px;
+  transition: background .15s, transform .15s;
+}
+.btn:hover, .btn:focus-visible { background: var(--accent); color: #3b2420; transform: translateY(-1px); }
+.btn .ext { font-size: 13px; opacity: .7; }
+
+.hint { margin-top: 18px; font-size: 15px; color: var(--ink-soft); }
+.hint .touch { display: none; }
+@media (hover: none) { .hint .mouse { display: none; } .hint .touch { display: inline; } }
+
+.foot { text-align: center; color: var(--ink-soft); font-size: 15px; padding: 40px 16px 30px; line-height: 1.7; }
+.foot .addr { display: block; font-size: 14px; opacity: .85; }
+
+/* ---------- 書籍頁 ---------- */
+.books { display: grid; gap: 22px; padding: 0; margin: 0 0 40px; list-style: none; }
+.book {
+  display: grid; grid-template-columns: 150px 1fr; gap: 22px;
+  background: var(--card); border: 2px solid var(--line); border-radius: 20px;
+  padding: 18px; box-shadow: var(--shadow);
+}
+.cover-box { width: 150px; }
+.cover {
+  display: block; width: 150px; height: auto;
+  border-radius: 6px 10px 10px 6px; border: 1.5px solid var(--line);
+  box-shadow: 3px 4px 0 rgba(74, 59, 50, .15); background: var(--paper-2);
+}
+.cover-fallback {
+  width: 150px; aspect-ratio: 400 / 562; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 14px; font-size: 20px; line-height: 1.4;
+  border: 2px dashed var(--ink-soft); border-radius: 6px 10px 10px 6px; background: var(--paper-2);
+  color: var(--ink);
+}
+.book .no { font-family: var(--latin); font-size: 22px; color: var(--accent-deep); line-height: 1; }
+.book h2 { font-size: 23px; margin: 2px 0 6px; }
+.book .meta { color: var(--ink-soft); font-size: 15px; margin: 0 0 10px; line-height: 1.6; }
+.book .summary { margin: 0; }
+.book .note {
+  margin: 10px 0 0; font-size: 14px; color: var(--ink-soft);
+  border-left: 3px solid var(--accent); padding-left: 10px;
+}
+@media (max-width: 560px) {
+  .book { grid-template-columns: 1fr; }
+  .cover-box { margin: 0 auto; }
+}
+
+/* ---------- 專欄 ---------- */
+.col-list { display: grid; gap: 18px; padding: 0; margin: 0 0 40px; list-style: none; }
+.col-card {
+  display: block; text-decoration: none; color: var(--ink);
+  background: var(--card); border: 2px solid var(--line); border-radius: 20px;
+  padding: 20px 22px; box-shadow: var(--shadow); transition: transform .15s, border-color .15s;
+}
+.col-card:hover, .col-card:focus-visible { transform: translateY(-3px); border-color: var(--accent); }
+.col-card h2 { font-size: 26px; margin-bottom: 6px; }
+.col-card p { margin: 0; color: var(--ink-soft); }
+.col-card .more { color: var(--accent-deep); margin-top: 8px; display: inline-block; }
+
+.article { max-width: 720px; margin: 0 auto 50px; }
+.article h1 { font-size: clamp(30px, 6vw, 42px); margin-bottom: 6px; }
+.article .byline { color: var(--ink-soft); font-size: 15px; margin: 0 0 24px; }
+.article h2 {
+  font-size: 25px; margin: 34px 0 8px; padding-bottom: 4px;
+  border-bottom: 2px dashed var(--line);
+}
+.article p { margin: 0 0 14px; }
+.article blockquote {
+  margin: 18px 0; padding: 10px 16px; background: var(--paper-2);
+  border-left: 5px solid var(--accent); border-radius: 0 12px 12px 0;
+}
+.article .refs { font-size: 15px; color: var(--ink-soft); padding-left: 1.3em; }
+.article .refs li { margin-bottom: 6px; line-height: 1.6; word-break: break-word; }
+.draft-note {
+  font-size: 14px; color: var(--ink-soft); background: var(--paper-2);
+  border: 1.5px dashed var(--line); border-radius: 12px; padding: 8px 12px; margin-bottom: 22px;
+}
