@@ -266,3 +266,5 @@ body.home-page::before {
 .btn-lg .ico { height: 30px; width: auto; display: block; }
 /* 貓站在櫃檯後面:hover 時只微微歪頭,不浮起來 */
 .char.cat:hover .char-btn, .char.cat.open .char-btn { transform: rotate(1.5deg); }
+
+.nw { white-space: nowrap; }
