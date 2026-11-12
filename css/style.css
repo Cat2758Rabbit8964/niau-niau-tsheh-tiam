@@ -72,7 +72,7 @@ h1, h2, h3 { font-weight: 400; line-height: 1.4; margin: 0; }
 .stage {
   position: relative;
   display: flex; justify-content: center; align-items: flex-end; gap: clamp(8px, 4vw, 48px);
-  margin: clamp(70px, 12vh, 120px) auto 0;
+  margin: clamp(110px, 17vh, 160px) auto 0;
   padding-bottom: 24px;
   max-width: 720px;
 }
@@ -213,3 +213,56 @@ body.home-page::before {
 }
 /* 窄螢幕:兩側景物會跑到角色後面,所以不顯示背景 */
 @media (max-width: 760px) { body.home-page::before { display: none; } }
+
+/* 貓的對話框有四個按鈕:改成兩欄,比較不會往上擋住標題 */
+.char.cat .bubble { width: min(290px, 74vw); }
+.char.cat .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.char.cat .btn { font-size: 15px; padding: 6px 4px; white-space: nowrap; }
+
+/* 導覽列:項目變多,窄螢幕時靠右換行 */
+.topbar nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 2px 4px; }
+.topbar nav a { margin-left: 0; white-space: nowrap; }
+@media (max-width: 560px) {
+  .topbar { align-items: flex-start; }
+  .topbar nav { max-width: 62%; font-size: 16px; }
+}
+
+/* 說明頁:繼續 / 返回 按鈕 */
+.btn-row { display: flex; gap: 14px; justify-content: center; margin: 36px 0 10px; flex-wrap: wrap; }
+.btn-lg {
+  display: inline-block; min-width: 130px; text-align: center; text-decoration: none;
+  font-family: var(--hand); font-size: 20px; line-height: 1.4; color: var(--ink);
+  border: 2.5px solid var(--ink); border-radius: 16px; padding: 8px 26px;
+  transition: background .15s, transform .15s;
+}
+.btn-lg.back { background: var(--paper-2); }
+.btn-lg.go { background: var(--accent); color: #3b2420; }
+.btn-lg:hover, .btn-lg:focus-visible { transform: translateY(-2px); }
+.btn-lg.back:hover, .btn-lg.back:focus-visible { background: var(--card); }
+.btn-lg.go:hover, .btn-lg.go:focus-visible { background: var(--accent-deep); color: #fff; }
+
+/* 兔子的按鈕名稱較長,加寬讓名稱維持單行,對話框才不會太高 */
+.char.rabbit .bubble { width: min(300px, 78vw); }
+.char.rabbit .btn { font-size: 16px; padding: 6px 8px; }
+
+/* ---------- 貓站在櫃檯後面 ---------- */
+:root { --cat-w: clamp(130px, 28vw, 240px); }
+.char.cat { display: flex; flex-direction: column; align-items: center; }
+.char.cat .char-btn img { width: var(--cat-w); }
+/* 貓的線條最低點約在圖高 91.5%,讓檯面剛好接在腳(頸部)下方,不與貓重疊 */
+.counter {
+  display: block; width: calc(var(--cat-w) * 1.5); height: auto;
+  margin-top: calc(var(--cat-w) * -0.302); pointer-events: none;
+  overflow: visible;
+}
+.counter .cl { fill: none; stroke: color-mix(in srgb, var(--ink-soft) 50%, var(--paper)); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.counter .slab { fill: var(--paper-2); }
+.counter .body { fill: var(--paper); }
+/* 對話框對齊貓的右緣(而不是較寬的櫃檯右緣) */
+.char.cat .bubble { right: calc((100% - var(--cat-w)) / 2 - 8px); }
+
+/* ---------- 按鈕前的小圖 ---------- */
+.btn-lg { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-lg .ico { height: 30px; width: auto; display: block; }
+/* 貓站在櫃檯後面:hover 時只微微歪頭,不浮起來 */
+.char.cat:hover .char-btn, .char.cat.open .char-btn { transform: rotate(1.5deg); }
