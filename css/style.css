@@ -268,3 +268,47 @@ body.home-page::before {
 .char.cat:hover .char-btn, .char.cat.open .char-btn { transform: rotate(1.5deg); }
 
 .nw { white-space: nowrap; }
+
+/* ---------- 專欄:表格、程式碼、示意圖 ---------- */
+.table-wrap { overflow-x: auto; margin: 16px 0 18px; }
+.article table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.6; }
+.article th, .article td { border: 1.5px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.article th { background: var(--paper-2); font-weight: 400; white-space: nowrap; }
+.article code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em;
+  background: var(--paper-2); padding: 1px 6px; border-radius: 6px;
+}
+.article pre {
+  background: var(--paper-2); border: 1.5px dashed var(--line); border-radius: 12px;
+  padding: 12px 14px; overflow-x: auto; margin: 14px 0 18px; font-size: 15px; line-height: 1.7;
+}
+.article pre code { background: none; padding: 0; font-size: inherit; }
+.fig { margin: 18px 0 20px; }
+.fig svg { display: block; width: 100%; height: auto; }
+.fig figcaption { color: var(--ink-soft); font-size: 15px; line-height: 1.6; margin-top: 6px; }
+.fig .gl { fill: none; stroke: var(--ink-soft); stroke-width: 3; stroke-linecap: round; }
+.fig .gc circle { fill: var(--card); stroke: var(--ink); stroke-width: 2.5; }
+.fig .gc circle.merge { fill: var(--accent); }
+.fig .gt text { fill: var(--ink-soft); font-family: var(--hand); font-size: 15px; }
+
+/* ---------- Git 專欄:更多示意圖 ---------- */
+.fig .scroll { overflow-x: auto; }
+.fig svg { min-width: 540px; color: var(--ink-soft); }
+.fig text { font-family: var(--hand); }
+.fig .t1 { font-size: 20px; fill: var(--ink); }
+.fig .t1s { font-size: 17px; fill: var(--ink); }
+.fig .t2 { font-size: 14px; fill: var(--ink-soft); }
+.fig .t2s { font-size: 13px; fill: var(--ink-soft); }
+.fig .t3 { font-size: 13px; fill: var(--accent-deep); }
+.fig .t3l { font-size: 15px; fill: var(--ink); }
+.fig .ta { font-size: 14px; fill: var(--accent-deep); }
+.fig .tm { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 14px; fill: var(--ink); }
+.fig .bx { fill: var(--card); stroke: var(--ink); stroke-width: 2.2; }
+.fig .ar { fill: none; stroke: var(--ink-soft); stroke-width: 2.4; stroke-linecap: round; }
+.fig .gl2 { fill: none; stroke: var(--ink-soft); stroke-width: 3; stroke-linecap: round; }
+.fig .cd { fill: var(--card); stroke: var(--ink); stroke-width: 2.5; }
+.fig .cd.merge { fill: var(--accent); }
+.fig .pill { fill: var(--accent); stroke: var(--ink); stroke-width: 2; }
+.fig .pillt { font-size: 14px; fill: #3b2420; text-anchor: middle; }
+.fig .dim { opacity: .4; stroke-dasharray: 5 4; }
+.fig .tl { font-size: 14px; fill: var(--ink); }

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 模型沿革 — 貓貓冊店</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Iansui&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="../index.html">🐱 貓貓冊店</a>
+      <nav>
+        <a href="../books.html">書籍介紹</a>
+        <a href="../columns.html" aria-current="page">專欄文章</a>
+        <a href="../rules.html">書店使用規約</a>
+        <a href="../manager.html">店長的話</a>
+      </nav>
+    </header>
+
+    <article class="article">
+      <h1>AI 模型沿革</h1>
+      <p class="byline">貓貓冊店專欄 ・ Attention 怎麼稱霸世界的</p>
+
+      <p>今天幾乎所有你聽過的大型語言模型,背後都是同一種架構:Transformer,而它的核心就是「注意力」(attention)。但在 2017 年之前,情況完全不同。這篇文章想回答:在 attention 之前,人們怎麼讓電腦讀懂一串文字?為什麼 attention 後來贏了?而最近被寄予厚望的挑戰者 Mamba,為什麼還沒辦法取代它?</p>
+
+      <h2>一、問題:電腦怎麼讀「一串」東西?</h2>
+      <p>語言、語音、股價、基因序列,都是「有順序的資料」。「狗咬人」和「人咬狗」用的是同樣三個字,意思卻完全相反。所以模型不但要認得每個字,還要理解它們的順序與彼此的關係,尤其是相隔很遠的關係,例如一篇文章開頭的人名,到結尾還要記得是誰。</p>
+      <p>這個問題叫做「序列建模」。接下來的故事,就是人們不斷嘗試更好的解法。</p>
+
+      <h2>二、RNN:一個字一個字讀,靠「記憶」往下傳</h2>
+      <p>最直覺的想法,是模仿人讀書:從頭到尾,一次讀一個字,同時在腦中維持一份「到目前為止的理解」。這就是遞迴神經網路(RNN):每讀一個字,就把新的字和上一步的「記憶」(隱藏狀態)合在一起,更新成新的記憶,再傳給下一步。</p>
+      <p>它的問題也很明顯:</p>
+      <ul>
+        <li><strong>容易忘記</strong>:資訊要穿過很多步驟才能傳到遠處,訓練時的訊號會越傳越弱(稱為梯度消失),所以很難記住遠處的內容。1997 年的 LSTM(長短期記憶)用「閘門」機制,讓模型學會決定該記什麼、忘什麼,大幅改善了這件事。</li>
+        <li><strong>無法平行</strong>:第 100 個字的記憶,要等第 99 個算完才能算。這讓訓練很難充分利用 GPU 這類擅長同時做大量運算的硬體。</li>
+      </ul>
+      <p>2014 年前後的「序列到序列」模型,用一個 RNN 把整句話讀完、壓成一個固定長度的向量,再由另一個 RNN 從這個向量把翻譯寫出來,在機器翻譯上取得很大的成功,但也埋下了一個伏筆:整句話只靠一個向量傳遞,資訊量不夠。</p>
+
+      <h2>三、CNN:用滑動的放大鏡平行地看</h2>
+      <p>卷積神經網路(CNN)本來是為圖像發明的:用一個小視窗,在圖上滑動,每次只看局部。有人想到,序列也可以這樣處理。2016 年的 WaveNet(用於語音合成)與 2017 年的 ConvS2S(用於機器翻譯)都是代表。ConvS2S 的作者指出,由於去掉了遞迴,序列各位置的計算可以平行進行,訓練更快,在翻譯上也超越了當時的 LSTM 系統。</p>
+      <p>不過 CNN 的視野有限:每一層只看一小段,想讓兩個遠處的字互相「看見」,就得疊很多層。</p>
+
+      <h2>四、Attention 登場:別把整句話壓成一個向量</h2>
+      <p>2014 年,巴達瑙(Bahdanau)、趙京烈(Cho)與班吉歐(Bengio)提出了一個關鍵想法。他們推測,把整句話壓縮成固定長度的向量,是效能的瓶頸。他們的解法是:翻譯每一個字時,讓模型自己去「軟搜尋」原句中和這個字最相關的部分,也就是回頭「注意」該看的地方。這就是注意力機制的起點。</p>
+      <p>用比喻來說:原本是讀完一整頁之後闔上書、只憑一份摘要翻譯;改良後則是翻譯每個字時,都能把書攤開,隨時往回翻。</p>
+
+      <h2>五、2017:Attention Is All You Need</h2>
+      <p>這時的 attention 還只是 RNN 的「外掛」。2017 年,Google 團隊發表了論文〈Attention Is All You Need〉,大膽地把 RNN 和 CNN 全部拿掉,整個模型只用 attention,稱為 Transformer。它帶來兩個決定性的優勢:</p>
+      <ul>
+        <li><strong>任兩個位置,一步直達</strong>:每個字都可以直接和所有其他字互相比對,不需要經過一長串中繼,遠處的關係不會在途中衰減。</li>
+        <li><strong>可以完全平行</strong>:所有位置的計算同時進行,完美契合 GPU,因此可以用前所未有的資料量與模型規模來訓練。</li>
+      </ul>
+      <p>接下來的故事大家都熟悉了:2018 年起,OpenAI 的 GPT 與 Google 的 BERT 展現了「先用大量文字預訓練、再微調」的威力;之後研究者又發現,模型越大、資料越多,表現就越好(規模定律)。Transformer 剛好是最適合「放大」的架構,於是在語言、圖像、語音、程式碼等領域一路稱霸。(想了解模型怎麼被訓練,可以看這篇專欄〈<a href="language-model.html">語言模型怎麼學習的</a>〉。)</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>架構</th><th>讀書比喻</th><th>強項</th><th>弱點</th></tr></thead>
+          <tbody>
+            <tr><td>RNN / LSTM</td><td>一字一字讀,邊讀邊寫筆記</td><td>天然適合順序;記憶量固定</td><td>容易忘記遠處的內容;無法平行</td></tr>
+            <tr><td>CNN</td><td>拿放大鏡一段一段掃</td><td>可平行;局部細節強</td><td>看得遠要疊很多層</td></tr>
+            <tr><td>Attention(Transformer)</td><td>整本書攤開,隨時回頭翻</td><td>直接連結任意位置;可大規模平行</td><td>成本隨長度快速增加</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>六、稱霸的代價:KV cache 與平方成長</h2>
+      <p>Attention 並不便宜,主要有兩個成本:</p>
+      <ul>
+        <li><strong>計算量隨長度平方成長</strong>:每個字都要和所有字比對,文章長度加倍,計算量約變成四倍。</li>
+        <li><strong>KV cache</strong>:模型生成文字時,每寫一個新字,都要回頭看前面所有的字。為了不用每次重算,系統會把前面每個字的「鍵」(Key)與「值」(Value)存起來,稱為 KV cache。上下文越長,存的東西就越多,而且是隨長度一直往上加。處理很長的文件時,它會吃掉大量記憶體,成為部署的瓶頸。</li>
+      </ul>
+      <p>於是研究者開始思考:能不能既保有 Transformer 的能力,又不必保存那麼多東西?</p>
+
+      <h2>七、Mamba:把 RNN 的想法帶回來</h2>
+      <p>2023 年底,古(Albert Gu)與道(Tri Dao)發表了 Mamba,屬於「狀態空間模型」(SSM)這一系。它的想法接近一個升級版的 RNN:不保存每個字,而是只維持一份<strong>固定大小的「狀態」</strong>,每讀到一個新字,就更新這份狀態。</p>
+      <p>Mamba 的關鍵創新,是「選擇性」:讓模型依照當下的輸入內容,決定這個字該不該記進狀態、要記多少,而不是對所有字一視同仁。論文指出,先前的類似架構在語言上落後 Transformer,原因正是缺乏這種依內容而定的推理能力。</p>
+      <p>結果令人振奮:</p>
+      <ul>
+        <li>計算量隨序列長度<strong>線性</strong>成長,而不是平方成長。</li>
+        <li>生成時只要維護固定大小的狀態,<strong>沒有隨長度不斷變大的 KV cache</strong>。</li>
+        <li>論文報告,推論的吞吐量(單位時間能產出的字數)可達同級 Transformer 的約 5 倍,並宣稱是第一個真正達到 Transformer 等級品質的線性時間模型。</li>
+      </ul>
+
+      <h2>八、為什麼 Mamba 沒能取代 attention?</h2>
+      <p>既然又快又省記憶體,為什麼大家沒有全面轉向 Mamba?關鍵就在「固定大小的狀態」這件事本身。</p>
+      <p>把任意長度的歷史,壓進一份固定大小的狀態,就是<strong>有損壓縮</strong>:不可能每個字的細節都保留。Mamba 的選擇性,是依「對預測下一步有沒有用」來決定怎麼壓,這在很多任務上很有效;但當任務要求<strong>原樣取回</strong>某個很久以前的字,例如逐字複製一段話、在長文件中精確找出一個特定的字串或數字,這種壓縮方向就不利了:被壓掉的細節,就回不來了。</p>
+      <p>用比喻:Transformer 的 KV cache 像是<strong>把整本書影印帶在身邊</strong>,想看哪一頁都可以翻回去,代價是行李越來越重;Mamba 則像<strong>只帶一份自己寫的筆記</strong>,輕巧,但筆記裡沒寫的細節就沒有了。</p>
+      <p>學術研究也支持這個直覺。2024 年 ICML 的論文〈Repeat After Me〉證明:一個兩層的 Transformer 就能複製指數級長度的字串,而像 Mamba 這種擁有固定大小潛在狀態的模型,在理論上受到根本的限制;實驗上,在複製與檢索這類需要「原樣取回」的任務,Transformer 的訓練效率與泛化能力都比同規模的 SSM 好,預訓練後的 Transformer 在這類記憶密集任務也勝過同大小的 Mamba。</p>
+      <p>不過也要公平地說:這個結論是<strong>針對特定任務</strong>的。同一篇論文也承認,SSM 與 RNN 在追蹤長序列中的狀態變數上其實更有優勢,Mamba 論文也報告了它在音訊、基因序列等領域的亮眼表現。所以更精確的說法是:Mamba 沒有在「通用的語言模型」這個位置上取代 attention,而不是「Mamba 不好」。</p>
+
+      <h2>九、現況:不是取代,而是分工</h2>
+      <p>既然兩者各有所長,近年的做法之一就是<strong>混合</strong>。例如 AI21 Labs 在 2024 年發表的 Jamba,把 Transformer 層、Mamba 層以及混合專家(MoE)層交錯堆疊。論文指出,因為只有部分層需要 KV cache,記憶體用量比同級的純 Transformer 小很多(論文提到約 8 倍),同時還保留了處理長上下文的能力;Transformer 與 Mamba 層的比例,就是在「省記憶體」與「保留精確檢索能力」之間的取捨。</p>
+      <p>所以今天的答案是:attention 仍是主流的核心,Mamba 與它的同類則成為補充與混合設計的重要零件。這場競賽還沒有結束。</p>
+
+      <h2>十、時間線整理</h2>
+      <ul>
+        <li><strong>1997</strong>:LSTM 發表,改善 RNN 的長距離記憶。</li>
+        <li><strong>2014</strong>:注意力機制被提出,用來解決「整句壓成一個向量」的瓶頸。</li>
+        <li><strong>2016~2017</strong>:WaveNet、ConvS2S 讓卷積走進序列建模。</li>
+        <li><strong>2017</strong>:Transformer 誕生,只用 attention。</li>
+        <li><strong>2018</strong>:GPT 與 BERT,預訓練時代開始。</li>
+        <li><strong>2023</strong>:Mamba 發表,以固定大小的狀態取代 KV cache。</li>
+        <li><strong>2024</strong>:研究指出 SSM 在複製與檢索任務上的限制;Jamba 等混合架構出現。</li>
+      </ul>
+
+      <blockquote>一句話總結:Attention 贏在「任兩個字一步直達、又能大規模平行」,代價是要把所有字都留著;Mamba 想省下這份行李,卻也因此丟掉了「逐字取回」的能力,所以兩者目前是分工,而不是取代。</blockquote>
+
+      <h2>延伸閱讀</h2>
+      <ul>
+        <li><a href="language-model.html">語言模型怎麼學習的</a>:從「猜下一個字」到微調。</li>
+        <li><a href="../books.html">書籍介紹</a>:想親手實作,可以翻翻《生成深度學習》。</li>
+      </ul>
+
+      <h2>參考資料</h2>
+      <ol class="refs">
+        <li>Hochreiter &amp; Schmidhuber (1997). <em>Long Short-Term Memory</em>. Neural Computation, 9(8), 1735–1780.</li>
+        <li>Bahdanau, Cho &amp; Bengio (2014). <em>Neural Machine Translation by Jointly Learning to Align and Translate</em>. <a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener">arxiv.org/abs/1409.0473</a></li>
+        <li>van den Oord et al. (2016). <em>WaveNet: A Generative Model for Raw Audio</em>. <a href="https://arxiv.org/abs/1609.03499" target="_blank" rel="noopener">arxiv.org/abs/1609.03499</a></li>
+        <li>Gehring et al. (2017). <em>Convolutional Sequence to Sequence Learning</em>. ICML 2017. <a href="https://arxiv.org/abs/1705.03122" target="_blank" rel="noopener">arxiv.org/abs/1705.03122</a></li>
+        <li>Vaswani et al. (2017). <em>Attention Is All You Need</em>. <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arxiv.org/abs/1706.03762</a></li>
+        <li>Gu &amp; Dao (2023). <em>Mamba: Linear-Time Sequence Modeling with Selective State Spaces</em>. <a href="https://arxiv.org/abs/2312.00752" target="_blank" rel="noopener">arxiv.org/abs/2312.00752</a></li>
+        <li>Jelassi et al. (2024). <em>Repeat After Me: Transformers are Better than State Space Models at Copying</em>. ICML 2024. <a href="https://arxiv.org/abs/2402.01032" target="_blank" rel="noopener">arxiv.org/abs/2402.01032</a></li>
+        <li>Lieber et al. (2024). <em>Jamba: A Hybrid Transformer-Mamba Language Model</em>. <a href="https://arxiv.org/abs/2403.19887" target="_blank" rel="noopener">arxiv.org/abs/2403.19887</a>;Jamba Team (2024). <em>Jamba-1.5</em>. <a href="https://arxiv.org/abs/2408.12570" target="_blank" rel="noopener">arxiv.org/abs/2408.12570</a></li>
+      </ol>
+    </article>
+  </div>
+  <footer class="foot">貓貓冊店 niau-niau tsheh-tiàm<span class="addr">地址:某科技公司科技大樓二樓一隅</span></footer>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大型專案管理:以 Git 為例 — 貓貓冊店</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Iansui&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="../index.html">🐱 貓貓冊店</a>
+      <nav>
+        <a href="../books.html">書籍介紹</a>
+        <a href="../columns.html" aria-current="page">專欄文章</a>
+        <a href="../rules.html">書店使用規約</a>
+        <a href="../manager.html">店長的話</a>
+      </nav>
+    </header>
+
+    <article class="article">
+      <h1>大型專案管理:以 Git 為例</h1>
+      <p class="byline">貓貓冊店專欄 ・ 一個人寫的程式,和一千個人寫的程式,是兩種完全不同的問題</p>
+
+      <p>你一定看過這樣的檔案名稱:「報告.docx」「報告_修改版.docx」「報告_最終版.docx」「報告_最終版_真的最後.docx」。這就是最原始的「版本管理」,而它在三個人以上就會開始失控。</p>
+      <p>軟體專案比寫報告複雜得多:程式動輒幾十萬行,幾十、幾百甚至上千人同時修改,而且改錯一行,整個系統可能就掛了。這篇文章想說明:大型專案真正難在哪裡?以及一套叫做 Git 的工具,是怎麼一一回答這些難題的。</p>
+
+      <h2>一、大型專案難在哪?三個核心難題</h2>
+      <ul>
+        <li><strong>記憶</strong>:一年前,是誰、為什麼把這一行改成這樣?出了問題,能不能退回到昨天好好的狀態?</li>
+        <li><strong>平行</strong>:十個人同時要改同一個系統,怎麼讓大家各做各的,互不踩到對方?</li>
+        <li><strong>整合與品質</strong>:大家的改動合在一起之後,還能正常運作嗎?誰來確認?</li>
+      </ul>
+      <p>1975 年,軟體工程師佛瑞德・布魯克斯(Fred Brooks)在《人月神話》裡提出一個著名的觀察:<strong>在已經延遲的軟體專案裡增加人手,只會讓它更晚完成</strong>(布魯克斯法則)。原因是人越多,彼此溝通與協調的成本就增加得越快。所以大型專案管理的重點,從來不是「讓大家寫得更快」,而是「讓協作的成本降下來」。</p>
+
+      <h2>二、Git 從哪裡來?</h2>
+      <p>Git 由林納斯・托瓦茲(Linus Torvalds)在 2005 年創造,他也是 Linux 作業系統核心的創始人。當時 Linux 核心的開發者使用一套叫做 BitKeeper 的商業版本控制軟體,後來 Linux 社群與該公司的關係破裂,免費使用的權利被收回,於是托瓦茲決定自己寫一套。</p>
+      <p>Git 最大的特色是<strong>分散式</strong>:每個開發者的電腦上,都有一份完整的專案歷史。沒有網路也能提交、查歷史、開分支;不會因為中央伺服器壞了,整個專案就沒救。</p>
+
+      <h2>三、先看懂 Git 的世界:三個地方</h2>
+      <p>剛學 Git 的人最容易卡在一件事:為什麼存個檔要「兩個步驟」?因為 Git 把你的檔案分成三個地方。可以想像成寄一個包裹:</p>
+      <figure class="fig">
+        <div class="scroll"><svg viewBox="0 0 640 200" role="img" aria-label="Git 的三個地方:工作區,透過 git add 放進暫存區,再透過 git commit 存進倉庫"><defs><marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="bx" x="15" y="40" width="150" height="100" rx="12"/><text class="t1" x="90" y="76" text-anchor="middle">工作區</text><text class="t2" x="90" y="102" text-anchor="middle">你正在編輯的檔案</text><text class="ta" x="90" y="172" text-anchor="middle">像:書桌上的文件</text><rect class="bx" x="245" y="40" width="150" height="100" rx="12"/><text class="t1" x="320" y="76" text-anchor="middle">暫存區</text><text class="t2" x="320" y="102" text-anchor="middle">挑好、準備提交的改動</text><text class="ta" x="320" y="172" text-anchor="middle">像:放進紙箱,準備寄出</text><rect class="bx" x="475" y="40" width="150" height="100" rx="12"/><text class="t1" x="550" y="76" text-anchor="middle">倉庫</text><text class="t2" x="550" y="102" text-anchor="middle">永久保存的歷史快照</text><text class="ta" x="550" y="172" text-anchor="middle">像:封箱、蓋章、留底</text><path class="ar" d="M167 98 H243" marker-end="url(#arr1)"/><text class="t3" x="205" y="84" text-anchor="middle">git add</text><path class="ar" d="M397 98 H473" marker-end="url(#arr1)"/><text class="t3" x="435" y="84" text-anchor="middle">git commit</text></svg></div>
+        <figcaption>一次完整的存檔,是「編輯 → 挑選 → 蓋章」三步。暫存區的好處是:你可以只挑一部分改動放進這一次提交。</figcaption>
+      </figure>
+      <p>下面是會一直出現的幾個名詞,先看一眼就好,後面的圖與範例會讓它們變得具體:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>名詞</th><th>白話意思</th></tr></thead>
+          <tbody>
+            <tr><td>倉庫(repository)</td><td>存放專案與「完整歷史」的地方,在你的資料夾裡是一個隱藏的 <code>.git</code> 資料夾</td></tr>
+            <tr><td>提交(commit)</td><td>替專案在某一刻拍的一張快照,附上說明</td></tr>
+            <tr><td>分支(branch)</td><td>一條可以獨立發展的路線(其實只是貼在某個提交上的標籤)</td></tr>
+            <tr><td>合併(merge)</td><td>把兩條路線的改動合在一起</td></tr>
+            <tr><td>衝突(conflict)</td><td>兩邊改了同一個地方,Git 不敢替你決定,需要人來選</td></tr>
+            <tr><td>遠端(remote)</td><td>放在網路上、大家共用的倉庫,例如 GitHub</td></tr>
+            <tr><td>推送 / 拉取 / 複製</td><td>push 上傳我的提交;pull 下載別人的提交;clone 第一次把整個倉庫抓下來</td></tr>
+            <tr><td>合併請求(Pull Request)</td><td>請同事審閱、同意後,把我的分支併進主線的申請</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>四、Git 如何回答三個難題</h2>
+
+      <h3>(一)記憶:提交(commit)與歷史</h3>
+      <p>在 Git 裡,每一次「提交」(commit),就是替整個專案在那一刻拍一張快照,並附上作者、時間,以及一段說明。每個提交都記得自己的「上一個」是誰,所以整個專案的歷史,就是一條可以一路往回追的鏈。每個提交還有一組獨一無二的雜湊值(很長的一串英數字)當作身分證。</p>
+      <figure class="fig">
+        <div class="scroll"><svg viewBox="0 0 640 190" role="img" aria-label="提交鏈示意圖:三個提交,每個都指向前一個,main 標籤貼在最新的提交上"><defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="bx" x="30" y="50" width="150" height="84" rx="12"/><text class="tm" x="105" y="78" text-anchor="middle">a1b2c3d</text><text class="t1s" x="105" y="103" text-anchor="middle">建立旅行計畫</text><text class="t2s" x="105" y="124" text-anchor="middle">作者・時間</text><rect class="bx" x="245" y="50" width="150" height="84" rx="12"/><text class="tm" x="320" y="78" text-anchor="middle">e4f5a6b</text><text class="t1s" x="320" y="103" text-anchor="middle">加入第二天</text><text class="t2s" x="320" y="124" text-anchor="middle">作者・時間</text><rect class="bx" x="460" y="50" width="150" height="84" rx="12"/><text class="tm" x="535" y="78" text-anchor="middle">c7d8e9f</text><text class="t1s" x="535" y="103" text-anchor="middle">修正景點名稱</text><text class="t2s" x="535" y="124" text-anchor="middle">作者・時間</text><path class="ar" d="M243 92 H182" marker-end="url(#arr2)"/><text class="t2s" x="213" y="82" text-anchor="middle">上一個</text><path class="ar" d="M458 92 H397" marker-end="url(#arr2)"/><text class="t2s" x="428" y="82" text-anchor="middle">上一個</text><rect class="pill" x="503.0" y="8" width="64" height="24" rx="12"/><text class="pillt" x="535" y="25" text-anchor="middle">main</text><path class="ar" d="M535 32 V48" marker-end="url(#arr2)"/><text class="t2" x="320" y="172" text-anchor="middle">提交 = 一張快照 + 作者 + 說明 + 指向「上一個提交」的連結</text></svg></div>
+        <figcaption>每個提交都用一串獨一無二的雜湊值(像身分證號碼)來辨認。把這些連結串起來,就是專案完整的歷史。</figcaption>
+      </figure>
+
+      <ul>
+        <li><strong>提交說明要寫「為什麼」</strong>:「修正登入失敗」比「改了東西」有用得多。一年後的你,會感謝現在寫清楚的自己。</li>
+        <li><strong>安全地回到過去</strong>:想撤銷某個改動,可以用 <code>revert</code>,它會新增一個提交去抵銷舊的,歷史不會被改寫,對團隊最安全(下圖對比了 <code>revert</code> 與危險的 <code>reset</code>)。</li>
+        <li><strong>追查問題來源</strong>:<code>blame</code> 可以看到每一行最後是誰、在哪次提交改的;<code>bisect</code> 則用二分法,在幾百次提交中快速找出「是從哪一次開始壞掉的」。</li>
+      </ul>
+
+      <figure class="fig">
+        <div class="scroll"><svg viewBox="0 0 640 305" role="img" aria-label="revert 與 reset 的比較:revert 新增一個抵銷提交,歷史完整保留;reset 把 main 往回搬,後面的提交看不到了"><defs><marker id="arr6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><text class="t3l" x="12" y="24" text-anchor="start">revert(建議):新增一個提交,把舊的改動「抵銷」</text><circle class="cd" cx="90" cy="95" r="14"/><circle class="cd" cx="180" cy="95" r="14"/><circle class="cd" cx="270" cy="95" r="14"/><circle class="cd" cx="360" cy="95" r="14"/><path class="gl2" d="M104 95 L166 95"/><path class="gl2" d="M194 95 L256 95"/><path class="gl2" d="M284 95 L346 95"/><path class="gl2" d="M374 95 L436 95"/><circle class="cd merge" cx="450" cy="95" r="14"/><text class="t2s" x="90" y="128" text-anchor="middle">A</text><text class="t2s" x="180" y="128" text-anchor="middle">B</text><text class="t2s" x="270" y="128" text-anchor="middle">C</text><text class="t2s" x="360" y="128" text-anchor="middle">D</text><text class="t2s" x="450" y="128" text-anchor="middle">R</text><text class="ta" x="450" y="150" text-anchor="middle">撤銷 C</text><rect class="pill" x="418.0" y="33" width="64" height="24" rx="12"/><text class="pillt" x="450" y="50" text-anchor="middle">main</text><path class="ar" d="M450 57 V77" marker-end="url(#arr6)"/><text class="t3l" x="12" y="190" text-anchor="start">reset(小心):把指標往回搬,後面的提交像「消失」了</text><circle class="cd" cx="90" cy="255" r="14"/><circle class="cd" cx="180" cy="255" r="14"/><circle class="cd dim" cx="270" cy="255" r="14"/><circle class="cd dim" cx="360" cy="255" r="14"/><path class="gl2" d="M104 255 L166 255"/><path class="gl2 dim" d="M194 255 L256 255"/><path class="gl2 dim" d="M284 255 L346 255"/><text class="t2s" x="90" y="288" text-anchor="middle">A</text><text class="t2s" x="180" y="288" text-anchor="middle">B</text><text class="t2s" x="270" y="288" text-anchor="middle">C</text><text class="t2s" x="360" y="288" text-anchor="middle">D</text><rect class="pill" x="148.0" y="200" width="64" height="24" rx="12"/><text class="pillt" x="180" y="217" text-anchor="middle">main</text><path class="ar" d="M180 224 V239" marker-end="url(#arr6)"/><text class="t2s" x="410" y="248" text-anchor="start">C、D 從歷史上「消失」</text><text class="t2s" x="410" y="270" text-anchor="start">已推送的話,會害到同事</text></svg></div>
+        <figcaption>團隊共用的主線上,請優先用 revert:歷史只增不減,最安全。</figcaption>
+      </figure>
+
+      <h3>(二)平行:分支(branch)與合併(merge)</h3>
+      <p>想像專案的主線叫做 <code>main</code>,是「目前可以正式使用的版本」。要開發新功能時,不是直接改主線,而是從主線<strong>開出一條分支</strong>,在自己的平行世界裡慢慢做;做好、檢查過了,再<strong>合併</strong>回主線。</p>
+<p>分支到底是什麼?出乎意料地簡單:<strong>分支只是貼在某個提交上的一張標籤</strong>。開一條新分支,只是多貼一張貼紙;在分支上提交,只有這張貼紙會跟著往前移。</p>
+      <figure class="fig">
+        <div class="scroll"><svg viewBox="0 0 640 345" role="img" aria-label="分支只是指標:先只有 main;開 feature 只是多貼一張標籤;在 feature 上提交後,只有 feature 往前移"><defs><marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><text class="t3l" x="12" y="66" text-anchor="start">① 一開始只有 main</text><path class="gl2" d="M264 70 L326 70"/><path class="gl2" d="M354 70 L416 70"/><circle class="cd" cx="250" cy="70" r="14"/><circle class="cd" cx="340" cy="70" r="14"/><circle class="cd" cx="430" cy="70" r="14"/><text class="t3l" x="12" y="186" text-anchor="start">② git switch -c feature</text><text class="t2s" x="12" y="206" text-anchor="start">只是多貼一張貼紙</text><path class="gl2" d="M264 190 L326 190"/><path class="gl2" d="M354 190 L416 190"/><circle class="cd" cx="250" cy="190" r="14"/><circle class="cd" cx="340" cy="190" r="14"/><circle class="cd" cx="430" cy="190" r="14"/><text class="t3l" x="12" y="306" text-anchor="start">③ 在 feature 上提交</text><text class="t2s" x="12" y="326" text-anchor="start">只有 feature 往前走</text><path class="gl2" d="M264 310 L326 310"/><path class="gl2" d="M354 310 L416 310"/><circle class="cd" cx="250" cy="310" r="14"/><circle class="cd" cx="340" cy="310" r="14"/><circle class="cd" cx="430" cy="310" r="14"/><rect class="pill" x="398.0" y="8" width="64" height="24" rx="12"/><text class="pillt" x="430" y="25" text-anchor="middle">main</text><path class="ar" d="M430 32 V53" marker-end="url(#arr3)"/><rect class="pill" x="366.0" y="128" width="64" height="24" rx="12"/><text class="pillt" x="398" y="145" text-anchor="middle">main</text><path class="ar" d="M404 152 L425 172" marker-end="url(#arr3)"/><rect class="pill" x="434.0" y="128" width="72" height="24" rx="12"/><text class="pillt" x="470" y="145" text-anchor="middle">feature</text><path class="ar" d="M458 152 L436 172" marker-end="url(#arr3)"/><path class="gl2" d="M444 310 L506 310"/><circle class="cd merge" cx="520" cy="310" r="14"/><rect class="pill" x="398.0" y="248" width="64" height="24" rx="12"/><text class="pillt" x="430" y="265" text-anchor="middle">main</text><path class="ar" d="M430 272 V293" marker-end="url(#arr3)"/><rect class="pill" x="484.0" y="248" width="72" height="24" rx="12"/><text class="pillt" x="520" y="265" text-anchor="middle">feature</text><path class="ar" d="M520 272 V293" marker-end="url(#arr3)"/></svg></div>
+        <figcaption>所以開分支幾乎不花任何成本,不會複製整個專案。「切換分支」就是換一張貼紙。</figcaption>
+      </figure>
+      <p>分支開好、各自發展,最後可以合併成一條,如下圖:</p>
+      <figure class="fig">
+        <div class="scroll"><svg viewBox="0 0 640 170" role="img" aria-label="分支示意圖:主線 main 上有多個提交;中間從主線分出一條 feature 分支,有兩個提交,最後合併回主線">
+          <g class="gl">
+            <path d="M40 40 H600"/>
+            <path d="M160 40 C180 40 200 120 230 120 H340 C380 120 380 40 420 40"/>
+          </g>
+          <g class="gc">
+            <circle cx="60" cy="40" r="9"/><circle cx="160" cy="40" r="9"/><circle cx="290" cy="40" r="9"/>
+            <circle cx="540" cy="40" r="9"/>
+            <circle cx="230" cy="120" r="9"/><circle cx="340" cy="120" r="9"/>
+            <circle class="merge" cx="420" cy="40" r="11"/>
+          </g>
+          <g class="gt">
+            <text x="8" y="14">main(主線)</text>
+            <text x="8" y="160">feature(功能分支)</text>
+            <text x="420" y="72" text-anchor="middle">合併</text>
+            <text x="160" y="72" text-anchor="middle">分出</text>
+          </g>
+        </svg></div>
+        <figcaption>分支就像在主線旁邊開一條平行的小路,做完再接回來。分支本身很「便宜」,開一條只是多一個指標,所以團隊可以放心地一個功能開一條。</figcaption>
+      </figure>
+
+      <p>如果兩個人改到了同一處,合併時就會出現「衝突」。Git 不會替你亂選,而是把兩種版本都擺出來,請人決定要留哪一個。這看起來麻煩,卻是在避免有人的改動被悄悄蓋掉。衝突時,你會在檔案裡看到像這樣的標記:</p>
+<pre><code>第一天:台北
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD          ← 上半:目前這條分支的版本
+第二天:台南
+=======
+第二天:台中(逛夜市)     ← 下半:要合併進來的版本
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; day3
+第三天:高雄</code></pre>
+      <p>你只要把它編輯成想要的結果、刪掉這三種標記行,再提交,衝突就解決了。</p>
+
+      <h3>(三)整合與品質:審閱與自動檢查</h3>
+      <p>合併之前,需要有「關卡」。現代團隊常見的做法是:</p>
+      <ul>
+        <li><strong>合併請求(Pull Request)與程式碼審閱</strong>:作者提出「請把我的分支合併進主線」,至少一位同事會看過,留下意見。這同時也是知識傳遞的機會。</li>
+        <li><strong>持續整合(CI)</strong>:每次提交後,自動跑一遍測試、檢查格式,沒通過就不能合併。</li>
+        <li><strong>保護主分支</strong>:規定主線不能直接修改,只能透過審閱通過的合併進來。</li>
+      </ul>
+      <figure class="fig">
+        <div class="scroll"><svg viewBox="0 0 640 180" role="img" aria-label="合併請求的流程:開分支、提交、推送,再開合併請求,經審閱與自動測試後合併回主線"><defs><marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="bx" x="5" y="15" width="180" height="58" rx="12"/><text class="t1s" x="95" y="40" text-anchor="middle">① 開分支</text><text class="t2s" x="95" y="61" text-anchor="middle">從主線分出一條新路</text><rect class="bx" x="230" y="15" width="180" height="58" rx="12"/><text class="t1s" x="320" y="40" text-anchor="middle">② 提交</text><text class="t2s" x="320" y="61" text-anchor="middle">在分支上做改動</text><rect class="bx" x="455" y="15" width="180" height="58" rx="12"/><text class="t1s" x="545" y="40" text-anchor="middle">③ 推送</text><text class="t2s" x="545" y="61" text-anchor="middle">上傳到遠端倉庫</text><rect class="bx" x="5" y="108" width="180" height="58" rx="12"/><text class="t1s" x="95" y="133" text-anchor="middle">④ 開合併請求</text><text class="t2s" x="95" y="154" text-anchor="middle">說明做了什麼、為什麼</text><rect class="bx" x="230" y="108" width="180" height="58" rx="12"/><text class="t1s" x="320" y="133" text-anchor="middle">⑤ 審閱與測試</text><text class="t2s" x="320" y="154" text-anchor="middle">同事看過、機器跑測試</text><rect class="bx" x="455" y="108" width="180" height="58" rx="12"/><text class="t1s" x="545" y="133" text-anchor="middle">⑥ 合併</text><text class="t2s" x="545" y="154" text-anchor="middle">通過後併回主線、刪分支</text><path class="ar" d="M187 44 H228" marker-end="url(#arr5)"/><path class="ar" d="M412 44 H453" marker-end="url(#arr5)"/><path class="ar" d="M545 75 V92 H95 V106" marker-end="url(#arr5)"/><path class="ar" d="M187 137 H228" marker-end="url(#arr5)"/><path class="ar" d="M412 137 H453" marker-end="url(#arr5)"/></svg></div>
+        <figcaption>這是現代團隊最常見的流程,每一個改動都經過「別人看過」和「機器測過」才進主線。</figcaption>
+      </figure>
+
+      <h3>(四)分散式:每台電腦都是完整的</h3>
+      <p>前面提過,Git 是「分散式」的。實際上,團隊通常會約定一個放在網路上的<strong>遠端倉庫</strong>(例如 GitHub)當作交換站:你把自己的提交 <strong>push</strong> 上去,同事用 <strong>pull</strong> 下載回來。每個人的電腦都保有完整歷史,所以就算遠端出事,也能從任何一台電腦復原。</p>
+      <figure class="fig">
+        <div class="scroll"><svg viewBox="0 0 640 220" role="img" aria-label="分散式示意圖:你的電腦、遠端倉庫與同事的電腦各有完整歷史,透過 push 與 pull 交換改動"><defs><marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="bx" x="15" y="60" width="150" height="90" rx="12"/><text class="t1" x="90" y="98" text-anchor="middle">你的電腦</text><text class="t2" x="90" y="126" text-anchor="middle">完整的歷史</text><rect class="bx" x="245" y="60" width="150" height="90" rx="12"/><text class="t1" x="320" y="98" text-anchor="middle">遠端倉庫</text><text class="t2" x="320" y="126" text-anchor="middle">例如 GitHub</text><rect class="bx" x="475" y="60" width="150" height="90" rx="12"/><text class="t1" x="550" y="98" text-anchor="middle">同事的電腦</text><text class="t2" x="550" y="126" text-anchor="middle">也有完整的歷史</text><path class="ar" d="M167 90 H243" marker-end="url(#arr4)"/><text class="t3" x="205" y="80" text-anchor="middle">push</text><path class="ar" d="M243 124 H167" marker-end="url(#arr4)"/><text class="t3" x="205" y="144" text-anchor="middle">pull</text><path class="ar" d="M473 90 H397" marker-end="url(#arr4)"/><text class="t3" x="435" y="80" text-anchor="middle">push</text><path class="ar" d="M397 124 H473" marker-end="url(#arr4)"/><text class="t3" x="435" y="144" text-anchor="middle">pull</text><text class="t2" x="320" y="200" text-anchor="middle">每一台都有完整備份;遠端只是大家約定「交換改動」的地方</text><text class="t2" x="320" y="24" text-anchor="middle">push:把我的提交上傳 ・ pull:把別人的提交下載回來</text></svg></div>
+        <figcaption>第一次把遠端整份抓下來,叫做 clone。</figcaption>
+      </figure>
+
+
+      <h2>五、團隊要選一種「工作流程」</h2>
+      <p>光有工具還不夠,團隊還要約定怎麼用。常見的幾種:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>流程</th><th>做法</th><th>適合</th></tr></thead>
+          <tbody>
+            <tr><td>Git Flow</td><td>設有長期存在的開發分支、發佈分支、修補分支,角色分明</td><td>有明確版本週期、需同時維護多個版本的產品</td></tr>
+            <tr><td>GitHub Flow</td><td>主線隨時可發佈;每個改動開短命分支、審閱後合併</td><td>持續上線的網站與服務</td></tr>
+            <tr><td>主幹開發(Trunk-based)</td><td>大家頻繁地、以很小的單位直接整合到主幹,搭配功能開關</td><td>追求高頻率交付、自動化程度高的團隊</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>沒有哪一種是標準答案。但有一個共通的經驗:<strong>分支活得越久,和主線差得越多,合併就越痛</strong>。所以許多團隊的取向,是讓分支短一點、改動小一點、更頻繁地整合。</p>
+
+      <h2>六、規模再大:模組、責任與層層把關</h2>
+      <ul>
+        <li><strong>單一倉庫(monorepo)或多倉庫</strong>:把所有程式放在同一個倉庫,方便一起修改與重構;或依模組拆成多個倉庫,各自獨立演進。兩者各有取捨,取決於團隊規模與工具支援。</li>
+        <li><strong>責任歸屬</strong>:許多平台支援「程式碼負責人」(例如 GitHub 的 CODEOWNERS),規定某個目錄的改動,必須經過對應的負責人審閱。</li>
+        <li><strong>Linux 核心的層層把關</strong>:這個專案本身,就是 Git 誕生的場景。各子系統有自己的維護者,先審閱並收下相關的修改,最後再由上層維護者彙整,逐層往上到托瓦茲。這種「信任鏈」讓一個極大的專案仍能維持品質。</li>
+      </ul>
+
+      <h2>七、版本與發佈</h2>
+      <p>專案要交到使用者手上,需要「版本號」。Git 可以用<strong>標籤(tag)</strong>把某次提交標示為「v1.2.0」。而業界常用的「語意化版本」規則,是用 <code>主版本.次版本.修補版本</code> 三段數字:不相容的大改動,主版本加一;新增功能且相容,次版本加一;只是修錯誤,修補版本加一。使用者光看版本號,就能約略知道升級的風險。</p>
+
+      <h2>八、Git 管不了的事</h2>
+      <p>要誠實地說:Git 管的是「程式碼的變動」,管不了「人」。需求有沒有講清楚、團隊有沒有共識、決策為什麼這樣做、文件有沒有人維護,這些仍然要靠溝通與流程,例如問題追蹤系統、設計文件、會議紀錄。工具降低了協作成本,但不能取代共識。</p>
+      <p>另外,這套思維也不限於寫程式。論文、法規、設計稿、書稿,只要是多人、長時間、反覆修改的工作,「保存歷史、平行發展、審閱後整合、清楚發佈」都用得上。</p>
+
+      <h2>九、跟著做一遍:用「旅行計畫」學 Git</h2>
+      <p>想像你和朋友正在規劃一趟旅行,計畫寫在一個叫 <code>plan.txt</code> 的檔案裡。我們用 Git 來管理它,一步一步看看發生了什麼事。(指令是在「終端機」裡輸入的;<code>#</code> 後面是說明,不用輸入。)</p>
+
+      <h3>步驟 1:建立倉庫</h3>
+<pre><code>mkdir travel &amp;&amp; cd travel   # 建立資料夾並走進去
+git init                    # 讓 Git 開始管理這個資料夾</code></pre>
+      <p>資料夾裡多了一個隱藏的 <code>.git</code>,這就是「倉庫」,之後所有的歷史都存在裡面。</p>
+
+      <h3>步驟 2:第一次提交</h3>
+      <p>先建立 <code>plan.txt</code>,內容是:</p>
+<pre><code>第一天:台北
+第二天:台中</code></pre>
+<pre><code>git status                  # 看狀態:plan.txt 是「未追蹤」
+git add plan.txt            # 放進暫存區(回頭看第三節的圖)
+git commit -m "建立旅行計畫"   # 蓋章存進倉庫 → 提交 A</code></pre>
+
+      <h3>步驟 3:開一條分支,加入第三天</h3>
+<pre><code>git switch -c day3          # 開一條叫 day3 的分支並切過去
+# 編輯 plan.txt:把第二天改成「台中(逛夜市)」,再新增一行「第三天:高雄」
+git add plan.txt
+git commit -m "加第三天,第二天加逛夜市"   # 提交 C(在 day3 上)</code></pre>
+
+      <h3>步驟 4:回到主線,另一邊也改了同一行</h3>
+<pre><code>git switch main             # 切回主線
+# 編輯 plan.txt:把第二天改成「台南」
+git add plan.txt
+git commit -m "第二天改去台南"           # 提交 D(在 main 上)</code></pre>
+
+      <h3>步驟 5:合併,遇到衝突,自己解決</h3>
+<pre><code>git merge day3              # 把 day3 合併進目前的 main</code></pre>
+      <p>Git 會告訴你「衝突」:兩邊都改了第二天。打開 <code>plan.txt</code>,就會看到前面說過的那些標記。你把它改成想要的樣子,例如:</p>
+<pre><code>第一天:台北
+第二天:台南(逛夜市)
+第三天:高雄</code></pre>
+<pre><code>git add plan.txt            # 告訴 Git「這個衝突我處理好了」
+git commit                  # 完成合併 → 合併提交 M</code></pre>
+
+      <h3>步驟 6:看看歷史</h3>
+<pre><code>git log --oneline --graph
+
+*   9f3e1a2 (HEAD -> main) Merge branch 'day3'
+|\
+| * c7d8e9f (day3) 加第三天,第二天加逛夜市
+* | b2c4d6e 第二天改去台南
+|/
+* a1b2c3d 建立旅行計畫</code></pre>
+      <figure class="fig">
+        <div class="scroll"><svg viewBox="0 0 640 215" role="img" aria-label="旅行計畫最後的歷史:A 之後分成 main 上的 D 與 day3 上的 C 兩條路,最後合併成 M"><defs><marker id="arr7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><path class="gl2" d="M94 60 L246 60"/><path class="gl2" d="M274 60 L446 60"/><path class="gl2" d="M80 74 C100 150 160 160 246 160"/><path class="gl2" d="M274 160 C360 160 430 150 450 72"/><circle class="cd" cx="80" cy="60" r="14"/><circle class="cd" cx="260" cy="60" r="14"/><circle class="cd" cx="260" cy="160" r="14"/><circle class="cd merge" cx="460" cy="60" r="14"/><text class="t2s" x="80" y="30" text-anchor="middle">建立旅行計畫</text><text class="t2s" x="260" y="30" text-anchor="middle">第二天改去台南</text><text class="t2s" x="260" y="196" text-anchor="middle">加第三天、第二天加逛夜市</text><text class="t2s" x="460" y="30" text-anchor="middle">合併(解決衝突)</text><text class="tl" x="80" y="65" text-anchor="middle">A</text><text class="tl" x="260" y="65" text-anchor="middle">D</text><text class="tl" x="260" y="165" text-anchor="middle">C</text><text class="tl" x="460" y="65" text-anchor="middle">M</text><rect class="pill" x="528.0" y="48" width="64" height="24" rx="12"/><text class="pillt" x="560" y="65" text-anchor="middle">main</text><path class="ar" d="M528 60 H478" marker-end="url(#arr7)"/><text class="t3l" x="12" y="160" text-anchor="start">day3 分支</text></svg></div>
+        <figcaption>兩條路各自走了一段,最後在 M 合在一起。</figcaption>
+      </figure>
+      <p>左邊那排星號與線條,就是上面這張圖的文字版。看得懂它,你就看得懂大部分專案的歷史了。</p>
+
+      <h3>步驟 7:後悔了?</h3>
+<pre><code>git revert 提交的雜湊值       # 用一個新提交抵銷某次改動(歷史完整保留)</code></pre>
+
+      <h3>常用指令一覽</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>指令</th><th>做什麼</th></tr></thead>
+          <tbody>
+            <tr><td><code>git init</code></td><td>在這個資料夾建立一個新倉庫</td></tr>
+            <tr><td><code>git status</code></td><td>看目前哪些檔案改了、哪些已放進暫存區</td></tr>
+            <tr><td><code>git add 檔案</code></td><td>把改動放進暫存區</td></tr>
+            <tr><td><code>git commit -m "說明"</code></td><td>把暫存區的改動存成一個提交</td></tr>
+            <tr><td><code>git log --oneline --graph</code></td><td>用圖形化的文字看歷史</td></tr>
+            <tr><td><code>git switch -c 名稱</code></td><td>開一條新分支並切過去</td></tr>
+            <tr><td><code>git switch 名稱</code></td><td>切換到已有的分支</td></tr>
+            <tr><td><code>git merge 名稱</code></td><td>把另一條分支合併進目前這條</td></tr>
+            <tr><td><code>git revert 雜湊值</code></td><td>用新提交抵銷舊提交(安全)</td></tr>
+            <tr><td><code>git clone 網址</code></td><td>把遠端倉庫整份抓下來</td></tr>
+            <tr><td><code>git push</code> / <code>git pull</code></td><td>上傳我的提交 / 下載別人的提交</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <blockquote>一句話總結:大型專案管理的核心,不是讓每個人更快,而是讓「記憶、平行、整合」三件事的成本都降到團隊負擔得起。Git 用提交、分支與審閱,回答了這三個問題。</blockquote>
+
+      <h2>參考資料</h2>
+      <ol class="refs">
+        <li>Chacon &amp; Straub. <em>Pro Git</em>(繁體中文版). <a href="https://git-scm.com/book/zh-tw/v2" target="_blank" rel="noopener">git-scm.com/book/zh-tw/v2</a></li>
+        <li>Linux Journal. <em>A Git Origin Story</em>. <a href="https://www.linuxjournal.com/content/git-origin-story" target="_blank" rel="noopener">linuxjournal.com/content/git-origin-story</a></li>
+        <li>Britannica. <em>Git</em>(版本控制軟體條目). <a href="https://www.britannica.com/technology/Git" target="_blank" rel="noopener">britannica.com/technology/Git</a></li>
+        <li>Brooks, F. P. (1975). <em>The Mythical Man-Month</em>. Addison-Wesley.</li>
+        <li>Driessen, V. (2010). <em>A successful Git branching model</em>(Git Flow). <a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank" rel="noopener">nvie.com</a></li>
+        <li>Trunk Based Development. <a href="https://trunkbaseddevelopment.com" target="_blank" rel="noopener">trunkbaseddevelopment.com</a></li>
+        <li>語意化版本 2.0.0. <a href="https://semver.org/lang/zh-TW/" target="_blank" rel="noopener">semver.org</a></li>
+      </ol>
+    </article>
+  </div>
+  <footer class="foot">貓貓冊店 niau-niau tsheh-tiàm<span class="addr">地址:某科技公司科技大樓二樓一隅</span></footer>
+</body>
+</html>
