@@ -25,7 +25,7 @@
       <h1>大型專案管理:以 Git 為例</h1>
       <p class="byline">貓貓冊店專欄 ・ 一個人寫的程式,和一千個人寫的程式,是兩種完全不同的問題</p>
 
-      <p>你一定看過這樣的檔案名稱:「報告.docx」「報告_修改版.docx」「報告_最終版.docx」「報告_最終版_真的最後.docx」。這就是最原始的「版本管理」,而它在三個人以上就會開始失控。</p>
+      <p>您一定看過這樣的檔案名稱:「報告.docx」「報告_修改版.docx」「報告_最終版.docx」「報告_最終版_真的最後.docx」。這就是最原始的「版本管理」,而它在三個人以上就會開始失控。</p>
       <p>軟體專案比寫報告複雜得多:程式動輒幾十萬行,幾十、幾百甚至上千人同時修改,而且改錯一行,整個系統可能就掛了。這篇文章想說明:大型專案真正難在哪裡?以及一套叫做 Git 的工具,是怎麼一一回答這些難題的。</p>
 
       <h2>一、大型專案難在哪?三個核心難題</h2>
@@ -41,21 +41,21 @@
       <p>Git 最大的特色是<strong>分散式</strong>:每個開發者的電腦上,都有一份完整的專案歷史。沒有網路也能提交、查歷史、開分支;不會因為中央伺服器壞了,整個專案就沒救。</p>
 
       <h2>三、先看懂 Git 的世界:三個地方</h2>
-      <p>剛學 Git 的人最容易卡在一件事:為什麼存個檔要「兩個步驟」?因為 Git 把你的檔案分成三個地方。可以想像成寄一個包裹:</p>
+      <p>剛學 Git 的人最容易卡在一件事:為什麼存個檔要「兩個步驟」?因為 Git 把您的檔案分成三個地方。可以想像成寄一個包裹:</p>
       <figure class="fig">
-        <div class="scroll"><svg viewBox="0 0 640 200" role="img" aria-label="Git 的三個地方:工作區,透過 git add 放進暫存區,再透過 git commit 存進倉庫"><defs><marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="bx" x="15" y="40" width="150" height="100" rx="12"/><text class="t1" x="90" y="76" text-anchor="middle">工作區</text><text class="t2" x="90" y="102" text-anchor="middle">你正在編輯的檔案</text><text class="ta" x="90" y="172" text-anchor="middle">像:書桌上的文件</text><rect class="bx" x="245" y="40" width="150" height="100" rx="12"/><text class="t1" x="320" y="76" text-anchor="middle">暫存區</text><text class="t2" x="320" y="102" text-anchor="middle">挑好、準備提交的改動</text><text class="ta" x="320" y="172" text-anchor="middle">像:放進紙箱,準備寄出</text><rect class="bx" x="475" y="40" width="150" height="100" rx="12"/><text class="t1" x="550" y="76" text-anchor="middle">倉庫</text><text class="t2" x="550" y="102" text-anchor="middle">永久保存的歷史快照</text><text class="ta" x="550" y="172" text-anchor="middle">像:封箱、蓋章、留底</text><path class="ar" d="M167 98 H243" marker-end="url(#arr1)"/><text class="t3" x="205" y="84" text-anchor="middle">git add</text><path class="ar" d="M397 98 H473" marker-end="url(#arr1)"/><text class="t3" x="435" y="84" text-anchor="middle">git commit</text></svg></div>
-        <figcaption>一次完整的存檔,是「編輯 → 挑選 → 蓋章」三步。暫存區的好處是:你可以只挑一部分改動放進這一次提交。</figcaption>
+        <div class="scroll"><svg viewBox="0 0 640 200" role="img" aria-label="Git 的三個地方:工作區,透過 git add 放進暫存區,再透過 git commit 存進倉庫"><defs><marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="bx" x="15" y="40" width="150" height="100" rx="12"/><text class="t1" x="90" y="76" text-anchor="middle">工作區</text><text class="t2" x="90" y="102" text-anchor="middle">您正在編輯的檔案</text><text class="ta" x="90" y="172" text-anchor="middle">像:書桌上的文件</text><rect class="bx" x="245" y="40" width="150" height="100" rx="12"/><text class="t1" x="320" y="76" text-anchor="middle">暫存區</text><text class="t2" x="320" y="102" text-anchor="middle">挑好、準備提交的改動</text><text class="ta" x="320" y="172" text-anchor="middle">像:放進紙箱,準備寄出</text><rect class="bx" x="475" y="40" width="150" height="100" rx="12"/><text class="t1" x="550" y="76" text-anchor="middle">倉庫</text><text class="t2" x="550" y="102" text-anchor="middle">永久保存的歷史快照</text><text class="ta" x="550" y="172" text-anchor="middle">像:封箱、蓋章、留底</text><path class="ar" d="M167 98 H243" marker-end="url(#arr1)"/><text class="t3" x="205" y="84" text-anchor="middle">git add</text><path class="ar" d="M397 98 H473" marker-end="url(#arr1)"/><text class="t3" x="435" y="84" text-anchor="middle">git commit</text></svg></div>
+        <figcaption>一次完整的存檔,是「編輯 → 挑選 → 蓋章」三步。暫存區的好處是:您可以只挑一部分改動放進這一次提交。</figcaption>
       </figure>
       <p>下面是會一直出現的幾個名詞,先看一眼就好,後面的圖與範例會讓它們變得具體:</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>名詞</th><th>白話意思</th></tr></thead>
           <tbody>
-            <tr><td>倉庫(repository)</td><td>存放專案與「完整歷史」的地方,在你的資料夾裡是一個隱藏的 <code>.git</code> 資料夾</td></tr>
+            <tr><td>倉庫(repository)</td><td>存放專案與「完整歷史」的地方,在您的資料夾裡是一個隱藏的 <code>.git</code> 資料夾</td></tr>
             <tr><td>提交(commit)</td><td>替專案在某一刻拍的一張快照,附上說明</td></tr>
             <tr><td>分支(branch)</td><td>一條可以獨立發展的路線(其實只是貼在某個提交上的標籤)</td></tr>
             <tr><td>合併(merge)</td><td>把兩條路線的改動合在一起</td></tr>
-            <tr><td>衝突(conflict)</td><td>兩邊改了同一個地方,Git 不敢替你決定,需要人來選</td></tr>
+            <tr><td>衝突(conflict)</td><td>兩邊改了同一個地方,Git 不敢替您決定,需要人來選</td></tr>
             <tr><td>遠端(remote)</td><td>放在網路上、大家共用的倉庫,例如 GitHub</td></tr>
             <tr><td>推送 / 拉取 / 複製</td><td>push 上傳我的提交;pull 下載別人的提交;clone 第一次把整個倉庫抓下來</td></tr>
             <tr><td>合併請求(Pull Request)</td><td>請同事審閱、同意後,把我的分支併進主線的申請</td></tr>
@@ -73,7 +73,7 @@
       </figure>
 
       <ul>
-        <li><strong>提交說明要寫「為什麼」</strong>:「修正登入失敗」比「改了東西」有用得多。一年後的你,會感謝現在寫清楚的自己。</li>
+        <li><strong>提交說明要寫「為什麼」</strong>:「修正登入失敗」比「改了東西」有用得多。一年後的您,會感謝現在寫清楚的自己。</li>
         <li><strong>安全地回到過去</strong>:想撤銷某個改動,可以用 <code>revert</code>,它會新增一個提交去抵銷舊的,歷史不會被改寫,對團隊最安全(下圖對比了 <code>revert</code> 與危險的 <code>reset</code>)。</li>
         <li><strong>追查問題來源</strong>:<code>blame</code> 可以看到每一行最後是誰、在哪次提交改的;<code>bisect</code> 則用二分法,在幾百次提交中快速找出「是從哪一次開始壞掉的」。</li>
       </ul>
@@ -113,7 +113,7 @@
         <figcaption>分支就像在主線旁邊開一條平行的小路,做完再接回來。分支本身很「便宜」,開一條只是多一個指標,所以團隊可以放心地一個功能開一條。</figcaption>
       </figure>
 
-      <p>如果兩個人改到了同一處,合併時就會出現「衝突」。Git 不會替你亂選,而是把兩種版本都擺出來,請人決定要留哪一個。這看起來麻煩,卻是在避免有人的改動被悄悄蓋掉。衝突時,你會在檔案裡看到像這樣的標記:</p>
+      <p>如果兩個人改到了同一處,合併時就會出現「衝突」。Git 不會替您亂選,而是把兩種版本都擺出來,請人決定要留哪一個。這看起來麻煩,卻是在避免有人的改動被悄悄蓋掉。衝突時,您會在檔案裡看到像這樣的標記:</p>
 <pre><code>第一天:台北
 &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD          ← 上半:目前這條分支的版本
 第二天:台南
@@ -121,7 +121,7 @@
 第二天:台中(逛夜市)     ← 下半:要合併進來的版本
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; day3
 第三天:高雄</code></pre>
-      <p>你只要把它編輯成想要的結果、刪掉這三種標記行,再提交,衝突就解決了。</p>
+      <p>您只要把它編輯成想要的結果、刪掉這三種標記行,再提交,衝突就解決了。</p>
 
       <h3>(三)整合與品質:審閱與自動檢查</h3>
       <p>合併之前,需要有「關卡」。現代團隊常見的做法是:</p>
@@ -136,9 +136,9 @@
       </figure>
 
       <h3>(四)分散式:每台電腦都是完整的</h3>
-      <p>前面提過,Git 是「分散式」的。實際上,團隊通常會約定一個放在網路上的<strong>遠端倉庫</strong>(例如 GitHub)當作交換站:你把自己的提交 <strong>push</strong> 上去,同事用 <strong>pull</strong> 下載回來。每個人的電腦都保有完整歷史,所以就算遠端出事,也能從任何一台電腦復原。</p>
+      <p>前面提過,Git 是「分散式」的。實際上,團隊通常會約定一個放在網路上的<strong>遠端倉庫</strong>(例如 GitHub)當作交換站:您把自己的提交 <strong>push</strong> 上去,同事用 <strong>pull</strong> 下載回來。每個人的電腦都保有完整歷史,所以就算遠端出事,也能從任何一台電腦復原。</p>
       <figure class="fig">
-        <div class="scroll"><svg viewBox="0 0 640 220" role="img" aria-label="分散式示意圖:你的電腦、遠端倉庫與同事的電腦各有完整歷史,透過 push 與 pull 交換改動"><defs><marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="bx" x="15" y="60" width="150" height="90" rx="12"/><text class="t1" x="90" y="98" text-anchor="middle">你的電腦</text><text class="t2" x="90" y="126" text-anchor="middle">完整的歷史</text><rect class="bx" x="245" y="60" width="150" height="90" rx="12"/><text class="t1" x="320" y="98" text-anchor="middle">遠端倉庫</text><text class="t2" x="320" y="126" text-anchor="middle">例如 GitHub</text><rect class="bx" x="475" y="60" width="150" height="90" rx="12"/><text class="t1" x="550" y="98" text-anchor="middle">同事的電腦</text><text class="t2" x="550" y="126" text-anchor="middle">也有完整的歷史</text><path class="ar" d="M167 90 H243" marker-end="url(#arr4)"/><text class="t3" x="205" y="80" text-anchor="middle">push</text><path class="ar" d="M243 124 H167" marker-end="url(#arr4)"/><text class="t3" x="205" y="144" text-anchor="middle">pull</text><path class="ar" d="M473 90 H397" marker-end="url(#arr4)"/><text class="t3" x="435" y="80" text-anchor="middle">push</text><path class="ar" d="M397 124 H473" marker-end="url(#arr4)"/><text class="t3" x="435" y="144" text-anchor="middle">pull</text><text class="t2" x="320" y="200" text-anchor="middle">每一台都有完整備份;遠端只是大家約定「交換改動」的地方</text><text class="t2" x="320" y="24" text-anchor="middle">push:把我的提交上傳 ・ pull:把別人的提交下載回來</text></svg></div>
+        <div class="scroll"><svg viewBox="0 0 640 220" role="img" aria-label="分散式示意圖:您的電腦、遠端倉庫與同事的電腦各有完整歷史,透過 push 與 pull 交換改動"><defs><marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="bx" x="15" y="60" width="150" height="90" rx="12"/><text class="t1" x="90" y="98" text-anchor="middle">您的電腦</text><text class="t2" x="90" y="126" text-anchor="middle">完整的歷史</text><rect class="bx" x="245" y="60" width="150" height="90" rx="12"/><text class="t1" x="320" y="98" text-anchor="middle">遠端倉庫</text><text class="t2" x="320" y="126" text-anchor="middle">例如 GitHub</text><rect class="bx" x="475" y="60" width="150" height="90" rx="12"/><text class="t1" x="550" y="98" text-anchor="middle">同事的電腦</text><text class="t2" x="550" y="126" text-anchor="middle">也有完整的歷史</text><path class="ar" d="M167 90 H243" marker-end="url(#arr4)"/><text class="t3" x="205" y="80" text-anchor="middle">push</text><path class="ar" d="M243 124 H167" marker-end="url(#arr4)"/><text class="t3" x="205" y="144" text-anchor="middle">pull</text><path class="ar" d="M473 90 H397" marker-end="url(#arr4)"/><text class="t3" x="435" y="80" text-anchor="middle">push</text><path class="ar" d="M397 124 H473" marker-end="url(#arr4)"/><text class="t3" x="435" y="144" text-anchor="middle">pull</text><text class="t2" x="320" y="200" text-anchor="middle">每一台都有完整備份;遠端只是大家約定「交換改動」的地方</text><text class="t2" x="320" y="24" text-anchor="middle">push:把我的提交上傳 ・ pull:把別人的提交下載回來</text></svg></div>
         <figcaption>第一次把遠端整份抓下來,叫做 clone。</figcaption>
       </figure>
 
@@ -172,7 +172,7 @@
       <p>另外,這套思維也不限於寫程式。論文、法規、設計稿、書稿,只要是多人、長時間、反覆修改的工作,「保存歷史、平行發展、審閱後整合、清楚發佈」都用得上。</p>
 
       <h2>九、跟著做一遍:用「旅行計畫」學 Git</h2>
-      <p>想像你和朋友正在規劃一趟旅行,計畫寫在一個叫 <code>plan.txt</code> 的檔案裡。我們用 Git 來管理它,一步一步看看發生了什麼事。(指令是在「終端機」裡輸入的;<code>#</code> 後面是說明,不用輸入。)</p>
+      <p>想像您和朋友正在規劃一趟旅行,計畫寫在一個叫 <code>plan.txt</code> 的檔案裡。我們用 Git 來管理它,一步一步看看發生了什麼事。(指令是在「終端機」裡輸入的;<code>#</code> 後面是說明,不用輸入。)</p>
 
       <h3>步驟 1:建立倉庫</h3>
 <pre><code>mkdir travel &amp;&amp; cd travel   # 建立資料夾並走進去
@@ -201,7 +201,7 @@ git commit -m "第二天改去台南"           # 提交 D(在 main 上)</code><
 
       <h3>步驟 5:合併,遇到衝突,自己解決</h3>
 <pre><code>git merge day3              # 把 day3 合併進目前的 main</code></pre>
-      <p>Git 會告訴你「衝突」:兩邊都改了第二天。打開 <code>plan.txt</code>,就會看到前面說過的那些標記。你把它改成想要的樣子,例如:</p>
+      <p>Git 會告訴您「衝突」:兩邊都改了第二天。打開 <code>plan.txt</code>,就會看到前面說過的那些標記。您把它改成想要的樣子,例如:</p>
 <pre><code>第一天:台北
 第二天:台南(逛夜市)
 第三天:高雄</code></pre>
@@ -221,7 +221,7 @@ git commit                  # 完成合併 → 合併提交 M</code></pre>
         <div class="scroll"><svg viewBox="0 0 640 215" role="img" aria-label="旅行計畫最後的歷史:A 之後分成 main 上的 D 與 day3 上的 C 兩條路,最後合併成 M"><defs><marker id="arr7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><path class="gl2" d="M94 60 L246 60"/><path class="gl2" d="M274 60 L446 60"/><path class="gl2" d="M80 74 C100 150 160 160 246 160"/><path class="gl2" d="M274 160 C360 160 430 150 450 72"/><circle class="cd" cx="80" cy="60" r="14"/><circle class="cd" cx="260" cy="60" r="14"/><circle class="cd" cx="260" cy="160" r="14"/><circle class="cd merge" cx="460" cy="60" r="14"/><text class="t2s" x="80" y="30" text-anchor="middle">建立旅行計畫</text><text class="t2s" x="260" y="30" text-anchor="middle">第二天改去台南</text><text class="t2s" x="260" y="196" text-anchor="middle">加第三天、第二天加逛夜市</text><text class="t2s" x="460" y="30" text-anchor="middle">合併(解決衝突)</text><text class="tl" x="80" y="65" text-anchor="middle">A</text><text class="tl" x="260" y="65" text-anchor="middle">D</text><text class="tl" x="260" y="165" text-anchor="middle">C</text><text class="tl" x="460" y="65" text-anchor="middle">M</text><rect class="pill" x="528.0" y="48" width="64" height="24" rx="12"/><text class="pillt" x="560" y="65" text-anchor="middle">main</text><path class="ar" d="M528 60 H478" marker-end="url(#arr7)"/><text class="t3l" x="12" y="160" text-anchor="start">day3 分支</text></svg></div>
         <figcaption>兩條路各自走了一段,最後在 M 合在一起。</figcaption>
       </figure>
-      <p>左邊那排星號與線條,就是上面這張圖的文字版。看得懂它,你就看得懂大部分專案的歷史了。</p>
+      <p>左邊那排星號與線條,就是上面這張圖的文字版。看得懂它,您就看得懂大部分專案的歷史了。</p>
 
       <h3>步驟 7:後悔了?</h3>
 <pre><code>git revert 提交的雜湊值       # 用一個新提交抵銷某次改動(歷史完整保留)</code></pre>
